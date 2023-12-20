@@ -1,7 +1,6 @@
 #script to process quasispecies pipeline outputs and aggregate sequences 
 library(openxlsx)
 library(dplyr)
-library(ggplot2)
 library(Biostrings)
 ### Translating DNA/RNA:
 #translate(x, genetic.code=GENETIC_CODE, if.fuzzy.codon="error")
