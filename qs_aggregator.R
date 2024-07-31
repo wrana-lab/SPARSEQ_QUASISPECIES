@@ -1,4 +1,4 @@
-#script to process quasispecies pipeline outputs and aggregate sequences 
+#script to process sparseq quasispecies pipeline outputs and aggregate sequences 
 library(openxlsx)
 library(dplyr)
 library(Biostrings)
@@ -37,11 +37,10 @@ mean(nchar(bc2_aligned_list$seq_chars))
 #keep prepared columns and check overlap 
 bc1_aligned_list_sm<-bc1_aligned_list[,3:4]
 bc2_aligned_list_sm<-bc2_aligned_list[,3:4]
-table(bc1_aligned_list_sm$seq_chars %in% bc2_aligned_list_sm$seq_chars) #24 false; 102 true
-table(bc2_aligned_list_sm$seq_chars %in% bc1_aligned_list_sm$seq_chars) #80 false; 111 true
+table(bc1_aligned_list_sm$seq_chars %in% bc2_aligned_list_sm$seq_chars)
+table(bc2_aligned_list_sm$seq_chars %in% bc1_aligned_list_sm$seq_chars)
 
-#need to keep only those sequences found in both copies of the sample
-##separate vers where I merge sample ID+seq to get unique total in more intuitive way 
+#need to keep only those sequences found in both copies of the sample so create merging variable
 bc1_aligned_list_merged<-bc1_aligned_list; bc1_aligned_list_merged$exp<-NULL
 bc2_aligned_list_merged<-bc2_aligned_list; bc2_aligned_list_merged$exp<-NULL
 bc1_aligned_list_merged$mergedsamplesequence<-paste(bc1_aligned_list_merged$sampleID, bc1_aligned_list_merged$seq_chars, sep = "_")
@@ -82,8 +81,8 @@ bcmin1_agg<-as.data.frame(bcmin1_agg)
 nrow(bcmin1_agg) 
 common_aligned_list_sm<-bcmin1_agg
 
-write.xlsx(bcmin1, file = "run27_final_sample_sequence_list.xlsx") #individual sample and sequence pairs
-write.xlsx(common_aligned_list_sm, "run27_common_sampleIDsandsequences_finalized.xlsx") #sequence and counts
+write.xlsx(bcmin1, file = "run_final_sample_sequence_list.xlsx") #individual sample and sequence pairs
+write.xlsx(common_aligned_list_sm, "run_common_sampleIDsandsequences_finalized.xlsx") #sequence and counts
 
 #convert to AAs
 common_dnastring<-DNAStringSet(common_aligned_list_sm$seq_chars)
@@ -93,39 +92,39 @@ colnames(common_translated)<-c("aas", "sequence", "numSamples")
 
 ###save aggregated sequences to files 
 #sequences
-write.table(">Refseq_srbd_omicron", file = "delta_srbd_topsequences.fa", row.names = FALSE, append = FALSE, col.names = FALSE, quote = F)
-write.table(srbd_omicron, file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(">Refseq_srbd_delta", file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(srbd_delta, file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(">Refseq_srbd_WT", file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(srbd_wt, file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(">Refseq_srbd_alpha", file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(srbd_alpha, file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_omicron", file = "srbd_topsequences.fa", row.names = FALSE, append = FALSE, col.names = FALSE, quote = F)
+write.table(srbd_omicron, file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_delta", file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(srbd_delta, file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_WT", file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(srbd_wt, file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_alpha", file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(srbd_alpha, file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
 
 for(i in 1:nrow(common_translated)){
   seq<-common_translated[i,2]
   exp_samp<-common_translated[i,3]
   lines<-paste0(">",exp_samp,"_samples")
-  write.table(lines, file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-  write.table(seq, file = "delta_srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+  write.table(lines, file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+  write.table(seq, file = "srbd_topsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
 }
 
 #AAs
-write.table(">Refseq_srbd_omicron", file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = FALSE, col.names = FALSE, quote = F)
-write.table(srbd_omicron_AA, file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(">Refseq_srbd_delta", file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(srbd_delta_AA, file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(">Refseq_srbd_WT", file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(srbd_wt_AA, file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(">Refseq_srbd_alpha", file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-write.table(srbd_wt_AA, file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_omicron", file = "srbd_topAAsequences.fa", row.names = FALSE, append = FALSE, col.names = FALSE, quote = F)
+write.table(srbd_omicron_AA, file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_delta", file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(srbd_delta_AA, file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_WT", file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(srbd_wt_AA, file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(">Refseq_srbd_alpha", file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+write.table(srbd_wt_AA, file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
 
 for(i in 1:nrow(common_translated)){
   seq<-common_translated[i,1]
   exp_samp<-common_translated[i,3]
   lines<-paste0(">",exp_samp,"_samples")
-  write.table(lines, file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
-  write.table(seq, file = "delta_srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+  write.table(lines, file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
+  write.table(seq, file = "srbd_topAAsequences.fa", row.names = FALSE, append = TRUE, col.names = FALSE, quote = F)
 }
 
 #these output files would now be aligned with clustal omega and then viewed in snapgene
