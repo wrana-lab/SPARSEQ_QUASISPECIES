@@ -16,8 +16,8 @@ srbd_alpha<-"ATCTATCAGGCCGGTAGCACACCTTGTAATGGTGTTGAAGGTTTTAATTGTTACTTTCCTTTACAAT
 srbd_alpha_AA<-"IYQAGSTPCNGVEGFNCYFPLQSYGFQPTYGV"
 
 #import result seqs
-bc1_aligned_list<-read.csv("bc1_2022/srbd_aligned_list.txt")
-bc2_aligned_list<-read.csv("bc2_2023/srbd_aligned_list.txt")
+bc1_aligned_list<-read.csv("bc1/srbd_aligned_list.txt")
+bc2_aligned_list<-read.csv("bc2/srbd_aligned_list.txt")
 
 #drop refseq - the first row 
 bc1_aligned_list<-bc1_aligned_list[2:nrow(bc1_aligned_list),]
