@@ -19,22 +19,23 @@ Requirements:
 
 
 Initial folder structure:
--/example_run
-	-/bc1
+
+/example_run
+	/bc1
 		-sample fastq files
 		-quasispecies_wrapper_standardized.sh
 		-sparseq_bc_srbd_quasispecies_standardized.py
 		-fasta_cutter_srbd_standardized.py
 		-BCcolmatch.csv
 		-BCrowmatch.csv
-	-/bc2
+	/bc2
 		-sample fastq files
 		-quasispecies_wrapper_standardized.sh
 		-sparseq_bc_srbd_quasispecies_standardized.py
 		-fasta_cutter_srbd_standardized.py
 		-BCcolmatch.csv
 		-BCrowmatch.csv
-	-/qs_aggregator.R
+	/qs_aggregator.R
 
 Script descriptions:
 
