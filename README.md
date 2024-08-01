@@ -35,13 +35,13 @@ Initial folder structure:
 			-fasta_cutter_srbd_standardized.py
 			-BCcolmatch.csv
 			-BCrowmatch.csv
-		/qs_aggregator.R
+		qs_aggregator.R
 
 Script descriptions:
 
 quasispecies_wrapper_standardized.sh Wrapper script for the QS analysis pipeline. Unzips fastq files, writes list of filenames, executes sequence pileup script [sparseq_bc_srbd_quasispecies_standardized.py], executes cluster omega locally for alignment and conversion to aligned fasta, executes fasta cut/trim script, then re-zips fastq files and reports run time. 
 
-sparseq_bc_srbd_quasispecies_standardized.py Initial processing script for raw fastq files. It processes pairs of fastq files by checking for matching read IDs, checking that the R1 and R2 BCs match the sample's well in the 384w plate, then selecting, binning, and counting Srbd sequences. Next it uses a preset cutoff to filter the binned sequences based on percentage of total sequence counts. The cutoff is calculated previously by running the pipeline at a set of standarizedd cutoffs [1%, 0.5%, 0.2%, 0.1%, 0.05%, 0.02%, 0.01%] and then using them to form a linear model to get the x-intercept, which is used as the finalized cutoff for the dataset (please see methods of our manuscript for details). Sequences passing the cutoffs are written to a .fa file.
+sparseq_bc_srbd_quasispecies_standardized.py Initial processing script for raw fastq files. It processes pairs of fastq files by checking for matching read IDs, checking that the R1 and R2 BCs match the sample's well in the 384w plate, then selecting, binning, and counting Srbd sequences. Next it uses a preset cutoff to filter the binned sequences based on percentage of total sequence counts. The cutoff is calculated previously by running the pipeline at a set of standarized cutoffs [1%, 0.5%, 0.2%, 0.1%, 0.05%, 0.02%, 0.01%] and then using them to form a linear model to get the x-intercept, which is used as the finalized cutoff for the dataset (please see methods of our manuscript for details). Sequences passing the cutoffs are written to a .fa file.
 
 Clustal Omega [installed and used locally] aligns sequences that passed the cutoffs in the .fa file and convert to an aligned .fasta file, as an intermediate step in the wrapper script and as an optional step at the end of the pipeline for visualization.
 
