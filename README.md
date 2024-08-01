@@ -4,11 +4,17 @@ This is the pipeline for quasispecies analysis.
 
 
 Requirements: 
+
 -python 3.9 with openpyxl,pandas 
+
 -clustal omega [http://www.clustal.org/omega/] 
+
 -R 4.2.2 with dplyr, Biostrings, openxlsx
--BC row match and column match reference files [included]
+
+-BC row match and column match reference files
+
 -optional: Snapgene Viewer for visualization of sequences [https://www.snapgene.com/snapgene-viewer]
+
 -tested on MacOS 12.7.5
 
 
