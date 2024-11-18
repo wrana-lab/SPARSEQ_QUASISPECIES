@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/733634256.svg)](https://doi.org/10.5281/zenodo.14182210)
+
 SPARSEQ QUASISPECIES
 
 This is the pipeline for quasispecies analysis.
